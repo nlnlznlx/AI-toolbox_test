@@ -6,8 +6,8 @@ body, h2, p, textarea {
 
 @font-face {
     font-family: 'PP NeueBit';
-    src: url('PPNeueBit-Bold.woff2') format('woff2'),
-        url('PPNeueBit-Bold.woff') format('woff');
+    src: url('fonts/PPNeueBit-Bold.woff2') format('woff2'),
+        url('fonts/PPNeueBit-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -173,75 +173,58 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    color: #0079d8;
-    text-shadow: 
-        0 0 8px #2c8ed9, 
-        0 0 16px #0079d8, 
-        0 0 32px #0079d8; 
+    color: #fff;
     font-size: 20px;
+    letter-spacing: 1px;
     box-shadow: inset 0 0 60px rgba(0, 79, 225, 0.8);
+    overflow-wrap: break-word; 
 }
 
 #chatbot-output {
     flex-grow: 1;
     overflow-y: auto;
     width: 85%;
-    padding: 10PX;
+    padding: 10px;
 }
 
 #chatbot-output p {
-    margin-bottom: 10px;
-    padding: 8px 12px;
+    margin-bottom: 5px;
+    padding: 5px 0px;
 }
 
-form {
-    display: flex;
-    width: 85%;
-}
-
-#user-prompt {
+#intro-text {
+    white-space: normal;
+    word-wrap: break-word; 
     width: 100%;
-    height: 50px;
-    border-radius: 20px;
-    border: 2px solid #000;
-    padding: 10px;
-    font-family: 'PP NeueBit', Courier, monospace;
-    font-size: 20px;
-    background-color: #fff;
-    color: #4849c9;
+    margin-bottom: 10px;
 }
 
-::placeholder {
-    font-family: 'PP NeueBit', Courier, monospace;
-    color: #afccf1;
-    font-size: 20px;
+@keyframes garbled {
+    0% {
+        content: attr(data-garbled);
+    }
+    100% {
+        content: attr(data-original);
+    }
 }
 
-.user-message {
-    color: #0079d8;
-    text-align: right;
-    margin-left: auto;  
+.garbled-text {
+    animation: garbled 1s steps(20) forwards;
 }
 
-.ai-message {
-    background-color: #f1f1f1;
-    color: #000;
-    text-align: left;
-    margin-right: auto;  
+.cursor {
+    color: #847c7c;
+    display: inline-block;
+    width: 8px;
+    background-color: #847c7c;
+    margin-left: 1px;
 }
 
-form button {
-    background-color: #4849c9;
-    color: white;
-    border: 2px solid #000;
-    border-radius: 20px;
-    font-family: 'PP NeueBit', Courier, monospace;
-    font-size: 17px;
-    cursor: pointer;
-    margin-left: 10px;
-    padding: 10px;
+.placeholder {
+    color: #aaa;
 }
 
+/* Right column - fake buttons */
 .chatbot-btns {
     position: absolute;
     width: 100%;

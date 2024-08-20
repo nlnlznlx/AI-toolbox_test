@@ -1,4 +1,108 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const originalText = "Welcome to your chatbot! How can I help you?";
+    const introTextElement = document.getElementById("intro-text");
+
+    // Function to generate a garbled string of the same length as the original text
+    function generateGarbledText(length) {
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        let garbledText = "";
+        for (let i = 0; i < length; i++) {
+            garbledText += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return garbledText;
+    }
+
+    // Set initial garbled text
+    introTextElement.textContent = generateGarbledText(originalText.length);
+
+    // Slowly reveal the correct text
+    let index = 0;
+    const revealText = setInterval(() => {
+        introTextElement.textContent = originalText.substr(0, index) + generateGarbledText(originalText.length - index);
+        index++;
+        if (index > originalText.length) {
+            clearInterval(revealText);
+            introTextElement.textContent = originalText; // Ensure the final text is fully correct
+        }
+    }, 55); 
+
+    const chatbotOutput = document.getElementById('chatbot-output');
+    const cursorElement = document.getElementById("cursor");
+    let userInput = "";
+
+    // Capture user input and simulate typing directly in the chatbot output
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            if (userInput.trim()) {
+            handleChatbotResponse(userInput);
+            }
+            event.preventDefault(); 
+        } else if (event.key === 'Backspace') {
+            userInput = userInput.slice(0, -1);
+            updateUserInputDisplay();
+            event.preventDefault(); 
+        } else if (event.key.length === 1) {
+            userInput += event.key;
+            updateUserInputDisplay();
+        }
+    });
+
+    // Function to update the user input display and manage the cursor
+    function updateUserInputDisplay() {
+        // Remove any existing input line with cursor
+        const existingUserInput = document.querySelector('.user-input-line:last-child');
+        if (existingUserInput) {
+            existingUserInput.remove();
+        }
+        
+        const userInputElement = document.createElement('div');
+        userInputElement.className = 'user-input-line';
+
+        userInputElement.textContent = userInput;
+        userInputElement.appendChild(cursorElement);
+        chatbotOutput.appendChild(userInputElement);
+    }
+
+    function handleChatbotResponse(message) {
+        // Clear the input buffer
+        userInput = "";
+
+        // REPLACE THIS PART WITH FOLLOWING FETCH METHOD
+        const reply = "FOR DISPLAY ONLY";
+        const replyElement = document.createElement('p');
+        replyElement.classList.add('ai-message');
+        replyElement.textContent = reply;
+        chatbotOutput.appendChild(replyElement);
+        updateUserInputDisplay();
+
+        // Fetch the response from ai
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error: status ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Display AI's response
+            const reply = data.reply;
+            const replyElement = document.createElement('p');
+            replyElement.classList.add('ai-message');
+            replyElement.textContent = reply;
+            chatbotOutput.appendChild(replyElement);
+            
+            // Add a new blank input line with the cursor for the next input
+            updateUserInputDisplay();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
     // Pagination of prompts
     const arrowBtn = document.querySelector('.arrow-btn');
     const page1 = document.querySelector('.prompt-options-list.page1');
@@ -21,8 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Prompt hints on the screen
     const buttons = document.querySelectorAll('.prompt-btn');
-    const displayText = document.querySelector('.chatbot-screen p');
-    const textarea = document.querySelector('.chatbot-screen textarea');
     const prompts = {
         'I am a storyteller': 'I want to tell a story about...',
         'I am a chef': 'I would like to cook...',
@@ -36,57 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     buttons.forEach(button => {
         button.addEventListener('click', () => {
-            const prompt = button.innerText;
-            displayText.innerText = prompts[prompt];
-            textarea.value = ""; // clear previous input
+            // Clear the chat output for a new conversation
+            chatbotOutput.innerHTML = "";
+
+            // Set the new placeholder text
+            const promptText = button.innerText;
+            introTextElement.innerText = prompts[promptText];
+            chatbotOutput.appendChild(introTextElement);
+
+            // Clear user input
+            userInput = "";
+            updateUserInputDisplay();
         });
-    });
-
-    const form = document.getElementById('prompt-form');
-    const userPrompt = document.getElementById('user-prompt');
-    const chatbotOutput = document.getElementById('chatbot-output');
-
-    form.addEventListener('submit', function(event) {
-        displayText.innerText = "";
-        
-        event.preventDefault();
-        
-        const message = userPrompt.value;
-        if (!message) return;
-
-        // Display the user's message on the right side
-        const userMessageElement = document.createElement('p');
-        userMessageElement.classList.add('user-message'); 
-        userMessageElement.textContent = message;
-        chatbotOutput.appendChild(userMessageElement);
-
-        // Clear the prompt box
-        userPrompt.value = '';
-
-        fetch('/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: message })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error: status ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const reply = data.reply;
-
-            const replyElement = document.createElement('p');
-            replyElement.classList.add('ai-message');
-            replyElement.textContent = reply;
-            chatbotOutput.appendChild(replyElement);
-            
-            // Scroll to the bottom of the output container
-            chatbotOutput.scrollTop = chatbotOutput.scrollHeight;
-        })
-        .catch(error => console.error('Error:', error));
     });
 });
