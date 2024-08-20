@@ -1,0 +1,300 @@
+body, h2, p, textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'PP NeueBit';
+    src: url('PPNeueBit-Bold.woff2') format('woff2'),
+        url('PPNeueBit-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'PP NeueBit', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    z-index: 1; 
+}
+
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; 
+    z-index: -1; 
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    max-width: 1400px;
+    padding: 20px;
+}
+
+/* Left column - prompt */
+.prompt-options {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 20%;
+    margin-right: 30px;
+    text-align: center;
+    min-width: 150px;
+}
+
+.prompt-options-title {
+    margin-bottom: 25px;
+    color: #000;
+    background-color: #fff;
+    font-size: 18px;
+    border: 2px solid #000;
+    border-radius: 30px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.prompt-options-column{
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 20px;
+    display: flex; 
+    flex-direction: column;
+}
+
+.prompt-options-list {
+    display: flex; 
+    flex-direction: column;
+    padding: 25px 25px 0px 25px;
+}
+
+.prompt-btn {
+    background-color: #4849c9;
+    background-size: cover;
+    font-family: 'PP NeueBit', Courier, monospace;
+    color: white;
+    border: 2px solid #000;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    font-size: 20px;
+    width: 100%;
+    transition: transform 0.2s;
+    height: 5.5rem;
+    box-shadow: inset 0 0 0 1000px rgba(72,73,201,0.8);
+}
+
+.prompt-btn:hover {
+    transform: scale(1.1);
+}
+
+.arrow-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.arrow-icon {
+    width: 25px; 
+    height: 25px;
+}
+
+.prompt-btn-storyteller{
+    background-image: url(img/storyteller.png);
+}
+
+.prompt-btn-chef{
+    background-image: url(img/chef.png);
+}
+
+.prompt-btn-scientist{
+    background-image: url(img/scientist.png);
+}
+
+.prompt-btn-gamer{
+    background-image: url(img/gamer.png);
+}
+
+.prompt-btn-dancer{
+    background-image: url(img/dancer.png);
+}
+
+.prompt-btn-photo-editor{
+    background-image: url(img/photoeditor.png);
+}
+
+.prompt-btn-map-reader{
+    background-image: url(img/mapreader.png);
+}
+
+.prompt-btn-puzzle-solver{
+    background-image: url(img/puzzlesolver.png);
+}
+
+/* Right column - screen */
+.chatbot {
+    background-color: #fff;
+    padding: 25px 15px 50px 15px;
+    border: 2px solid #000;
+    border-radius: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 50%;
+    height: auto;
+    aspect-ratio: 1/1;
+}
+
+.chatbot-screen {
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 20%;
+    padding: 20px;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #0079d8;
+    text-shadow: 
+        0 0 8px #2c8ed9, 
+        0 0 16px #0079d8, 
+        0 0 32px #0079d8; 
+    font-size: 20px;
+    box-shadow: inset 0 0 60px rgba(0, 79, 225, 0.8);
+}
+
+#chatbot-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    width: 85%;
+    padding: 10PX;
+}
+
+#chatbot-output p {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+}
+
+form {
+    display: flex;
+    width: 85%;
+}
+
+#user-prompt {
+    width: 100%;
+    height: 50px;
+    border-radius: 20px;
+    border: 2px solid #000;
+    padding: 10px;
+    font-family: 'PP NeueBit', Courier, monospace;
+    font-size: 20px;
+    background-color: #fff;
+    color: #4849c9;
+}
+
+::placeholder {
+    font-family: 'PP NeueBit', Courier, monospace;
+    color: #afccf1;
+    font-size: 20px;
+}
+
+.user-message {
+    color: #0079d8;
+    text-align: right;
+    margin-left: auto;  
+}
+
+.ai-message {
+    background-color: #f1f1f1;
+    color: #000;
+    text-align: left;
+    margin-right: auto;  
+}
+
+form button {
+    background-color: #4849c9;
+    color: white;
+    border: 2px solid #000;
+    border-radius: 20px;
+    font-family: 'PP NeueBit', Courier, monospace;
+    font-size: 17px;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.chatbot-btns {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    top: 86%;
+    left: 0;
+    pointer-events: none;
+}
+
+.small-circles {
+    position: absolute;
+    bottom: 5%;
+    left: 19%;
+    display: flex;
+    gap: 20px; 
+}
+
+.circle {
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.circle.small {
+    width: 27px;
+    height: 27px;
+}
+
+.circle.big {
+    position: absolute;
+    bottom: -5%;
+    right: 18%;
+    width: 40px;
+    height: 40px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+        margin: 40px;
+    }
+
+    .prompt-options {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .chatbot {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        margin-top: 20px;
+    }
+}

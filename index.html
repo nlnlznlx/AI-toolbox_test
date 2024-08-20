@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Toolbox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <video autoplay muted loop id="background-video">
+        <source src="website_bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <div class="prompt-options">
+            <div class="prompt-options-title">
+                <h2>Pick your prompt!</h2>
+            </div>
+            <div class="prompt-options-column">
+                <div class="prompt-options-list page1">
+                    <button class="prompt-btn prompt-btn-storyteller">I am a storyteller</button>
+                    <button class="prompt-btn prompt-btn-chef">I am a chef</button>
+                    <button class="prompt-btn prompt-btn-scientist">I am a scientist</button>
+                    <button class="prompt-btn prompt-btn-gamer">I am a gamer</button>
+                </div>
+                <div class="prompt-options-list page2" style="display: none;">
+                    <button class="prompt-btn prompt-btn-dancer">I am a dancer</button>
+                    <button class="prompt-btn prompt-btn-photo-editor">I am a photo editor</button>
+                    <button class="prompt-btn prompt-btn-map-reader">I am a map reader</button>
+                    <button class="prompt-btn prompt-btn-puzzle-solver">I am a puzzle solver</button>
+                </div>
+                <button class="arrow-btn">
+                    <img src="img/down-arrow.jpeg" class="arrow-icon">
+                </button>
+            </div>
+        </div>
+        <div class="chatbot">
+            <div class="chatbot-screen">
+                <div id="chatbot-output">
+                    <p>Welcome to your AI Chatbot! How can I help you today?</p>
+                </div>
+                <form id="prompt-form">
+                    <textarea id="user-prompt" placeholder="write your prompt"></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <div class="chatbot-btns">
+                <div class="small-circles">
+                    <div class="circle small"></div>
+                    <div class="circle small"></div>
+                    <div class="circle small"></div>
+                </div>
+                <div class="circle big"></div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
