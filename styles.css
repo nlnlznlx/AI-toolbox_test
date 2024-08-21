@@ -220,10 +220,6 @@ body {
     margin-left: 1px;
 }
 
-.placeholder {
-    color: #aaa;
-}
-
 /* Right column - fake buttons */
 .chatbot-btns {
     position: absolute;

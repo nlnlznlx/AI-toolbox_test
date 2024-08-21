@@ -4,9 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotOutput = document.getElementById('chatbot-output');
     const cursorElement = document.getElementById("cursor");
     let userInput = "";
-    let currentPrompt = "";
-    let isPlaceholderActive = false;
-
+    
     // Function to generate a garbled string of the same length as the original text
     function generateGarbledText(length) {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
@@ -42,18 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const userInputElement = document.createElement('div');
         userInputElement.className = 'user-input-line';
 
-        userInputElement.textContent = userInput || ""; 
+        userInputElement.textContent = userInput; 
         userInputElement.appendChild(cursorElement);
         chatbotOutput.appendChild(userInputElement);
         chatbotOutput.scrollTop = chatbotOutput.scrollHeight;
-    }
-
-    // Function to clear placeholder if active
-    function clearPlaceholder() {
-        if (isPlaceholderActive) {
-            introTextElement.textContent = "";
-            isPlaceholderActive = false;
-        }
     }
 
     function handleChatbotResponse(message) {
@@ -98,23 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Capture user input and simulate typing directly in the chatbot output
     document.addEventListener('keydown', (event) => {
-        console.log('Key pressed:', event.key); // Debugging log
-
-        clearPlaceholder();
-
         if (event.key === 'Enter') {
-            if (userInput !== currentPrompt && userInput.trim()) {
             handleChatbotResponse(userInput);
-            }
             event.preventDefault(); 
         } else if (event.key === 'Backspace') {
             userInput = userInput.slice(0, -1);
             updateUserInputDisplay();
             event.preventDefault();
         } else if (event.key.length === 1) {
-            //console.log(`Key pressed: ${event.key}, Current userInput: "${userInput}"`);
             userInput += event.key;
-            console.log('User input:', userInput); // Debugging log
             updateUserInputDisplay();
         }
     });
@@ -164,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Clear user input and activate placeholder mode
             userInput = "";
-            isPlaceholderActive = true;
             updateUserInputDisplay();
         });
     });
