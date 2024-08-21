@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const originalText = "Welcome to your chatbot! How can I help you?";
     const introTextElement = document.getElementById("intro-text");
+    const chatbotOutput = document.getElementById('chatbot-output');
+    const cursorElement = document.getElementById("cursor");
+    let userInput = "";
+    let currentPrompt = "";
+    let isPlaceholderActive = false;
 
     // Function to generate a garbled string of the same length as the original text
     function generateGarbledText(length) {
@@ -26,27 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 55); 
 
-    const chatbotOutput = document.getElementById('chatbot-output');
-    const cursorElement = document.getElementById("cursor");
-    let userInput = "";
-
-    // Capture user input and simulate typing directly in the chatbot output
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            if (userInput.trim()) {
-            handleChatbotResponse(userInput);
-            }
-            event.preventDefault(); 
-        } else if (event.key === 'Backspace') {
-            userInput = userInput.slice(0, -1);
-            updateUserInputDisplay();
-            event.preventDefault(); 
-        } else if (event.key.length === 1) {
-            userInput += event.key;
-            updateUserInputDisplay();
-        }
-    });
-
     // Function to update the user input display and manage the cursor
     function updateUserInputDisplay() {
         // Remove any existing input line with cursor
@@ -58,9 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const userInputElement = document.createElement('div');
         userInputElement.className = 'user-input-line';
 
-        userInputElement.textContent = userInput;
+        userInputElement.textContent = userInput || ""; 
         userInputElement.appendChild(cursorElement);
         chatbotOutput.appendChild(userInputElement);
+        chatbotOutput.scrollTop = chatbotOutput.scrollHeight;
+    }
+
+    // Function to clear placeholder if active
+    function clearPlaceholder() {
+        if (isPlaceholderActive) {
+            introTextElement.textContent = "";
+            isPlaceholderActive = false;
+        }
     }
 
     function handleChatbotResponse(message) {
@@ -102,6 +95,29 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error:', error));
     }
+
+    // Capture user input and simulate typing directly in the chatbot output
+    document.addEventListener('keydown', (event) => {
+        console.log('Key pressed:', event.key); // Debugging log
+
+        clearPlaceholder();
+
+        if (event.key === 'Enter') {
+            if (userInput !== currentPrompt && userInput.trim()) {
+            handleChatbotResponse(userInput);
+            }
+            event.preventDefault(); 
+        } else if (event.key === 'Backspace') {
+            userInput = userInput.slice(0, -1);
+            updateUserInputDisplay();
+            event.preventDefault();
+        } else if (event.key.length === 1) {
+            //console.log(`Key pressed: ${event.key}, Current userInput: "${userInput}"`);
+            userInput += event.key;
+            console.log('User input:', userInput); // Debugging log
+            updateUserInputDisplay();
+        }
+    });
 
     // Pagination of prompts
     const arrowBtn = document.querySelector('.arrow-btn');
@@ -146,8 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             introTextElement.innerText = prompts[promptText];
             chatbotOutput.appendChild(introTextElement);
 
-            // Clear user input
+            // Clear user input and activate placeholder mode
             userInput = "";
+            isPlaceholderActive = true;
             updateUserInputDisplay();
         });
     });
